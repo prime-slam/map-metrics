@@ -15,10 +15,14 @@
  */
 #pragma once
 
-#include <Eigen/Core>
-
 namespace map_metrics {
-double MPV(Eigen::Ref<const Eigen::MatrixX3d> const& points, std::vector<Eigen::Matrix4d> const& poses);
+class Config {
+ public:
+  Config(int32_t min_knn = 5, double knn_rad = 1.0, int32_t max_nn = 30, int32_t min_clust_size = 5);
 
-double MME(Eigen::Ref<const Eigen::MatrixX3d> const& points, std::vector<Eigen::Matrix4d> const& poses);
+  const int32_t min_knn;
+  const double knn_rad;
+  const int32_t max_nn;
+  const int32_t min_clust_size;
+};
 }  // namespace map_metrics

@@ -13,8 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "map_metrics/metrics.h"
+#pragma once
+
+#include <memory>
+#include <Eigen/Core>
+
+#include <map_metrics/config.h>
 
 namespace map_metrics {
+class MetricEstimator {
+ public:
+  MetricEstimator(Eigen::Ref<const Eigen::Matrix4d> const& points, Config const& config);
+
+  double MME();
+
+  double MPV();
+
+ private:
+  class Impl;
+  std::unique_ptr<Impl> impl_;
+};
 
 }  // namespace map_metrics

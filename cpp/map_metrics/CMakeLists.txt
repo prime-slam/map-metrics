@@ -7,9 +7,8 @@ set(TARGET_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(TARGET_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(SRC_FILES
-    ${TARGET_SOURCE_DIR}/map_metrics/metrics.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/base_metrics.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/core/point_statistics.cpp
+    ${TARGET_SOURCE_DIR}/map_metrics/metric_estimator.cpp
+    ${TARGET_SOURCE_DIR}/map_metrics/point_statistics.cpp
 )
 
 #####################################
