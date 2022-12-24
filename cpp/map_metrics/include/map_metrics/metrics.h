@@ -15,6 +15,10 @@
  */
 #pragma once
 
-namespace map_metrics{
+#include <Eigen/Core>
 
-}
+namespace map_metrics {
+double MPV(Eigen::Ref<const Eigen::MatrixX3d> const& points, std::vector<Eigen::Matrix4d> const& poses);
+
+double MME(Eigen::Ref<const Eigen::MatrixX3d> const& points, std::vector<Eigen::Matrix4d> const& poses);
+}  // namespace map_metrics
