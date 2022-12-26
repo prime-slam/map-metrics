@@ -18,11 +18,12 @@
 #include <cilantro/core/kd_tree.hpp>
 
 #include "point_statistics.h"
+#include "utils/kdtree_utils.h"
 
 namespace map_metrics {
 class MetricEstimator::Impl {
  public:
-  Impl(Eigen::Ref<const Eigen::Matrix4d> const& points, Config const& config);
+  Impl(Eigen::Ref<const Eigen::Matrix3Xd> const& points, Config const& config);
 
   double MME();
 
@@ -35,7 +36,8 @@ class MetricEstimator::Impl {
   double baseMetricEstimation(double (*metric)(cilantro::VectorSet3d const& points));
 };
 
-MetricEstimator::Impl::Impl(Eigen::Ref<const Eigen::Matrix4d> const& points, Config const& config) {}
+MetricEstimator::Impl::Impl(Eigen::Ref<const Eigen::Matrix3Xd> const& points, Config const& config)
+    : map_kd_tree_(std::make_unique<cilantro::KDTree3d<>>(points.data())), config_(config) {}
 
 double MetricEstimator::Impl::MME() { return baseMetricEstimation(computePointsEntropy); }
 
@@ -44,16 +46,15 @@ double MetricEstimator::Impl::MPV() { return baseMetricEstimation(computePointsV
 double MetricEstimator::Impl::baseMetricEstimation(double (*metric)(cilantro::VectorSet3d const& points)) {
   std::vector<double> metric_statistic;
   for (auto point : map_kd_tree_->getPointsMatrixMap().colwise()) {
-    cilantro::NeighborSet<double> nn = map_kd_tree_->radiusSearch(point, std::pow(config_.knn_rad, 2.0));
-    Eigen::ArrayXi mask = Eigen::ArrayXi::Zero(map_kd_tree_->getPointsMatrixMap().cols());
-    for (auto neighbour : nn){
-      mask[neighbour.index] = 1;
-    }
+    auto neighbours_idx = getRadiusSearchIndices(*map_kd_tree_, point, config_.knn_rad);
 
-    if (mask.count() > config_.min_knn){
-      // TODO
+    if (neighbours_idx.size() > config_.min_knn) {
+      double metric_result = metric(transformPointIdxToMatrix(map_kd_tree_->getPointsMatrixMap(), neighbours_idx));
+      metric_statistic.push_back(metric_result);
     }
   }
+
+  return Eigen::Map<Eigen::VectorXd>(metric_statistic.data(), metric_statistic.size()).mean();
 }
 
 }  // namespace map_metrics

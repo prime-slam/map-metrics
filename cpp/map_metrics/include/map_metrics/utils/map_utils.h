@@ -15,23 +15,8 @@
  */
 #pragma once
 
-#include <memory>
 #include <Eigen/Core>
 
-#include <map_metrics/config.h>
-
 namespace map_metrics {
-class MetricEstimator {
- public:
-  MetricEstimator(Eigen::Ref<const Eigen::Matrix3Xd> const& points, Config const& config);
-
-  double MME();
-
-  double MPV();
-
- private:
-  class Impl;
-  std::unique_ptr<Impl> impl_;
-};
-
+Eigen::Matrix3Xd aggregateMap(std::vector<Eigen::Matrix3Xd> const& points, std::vector<Eigen::Matrix4d> const& poses);
 }  // namespace map_metrics

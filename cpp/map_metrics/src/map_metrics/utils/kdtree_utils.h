@@ -15,23 +15,14 @@
  */
 #pragma once
 
-#include <memory>
-#include <Eigen/Core>
+#include <vector>
 
-#include <map_metrics/config.h>
+#include <cilantro/core/kd_tree.hpp>
 
 namespace map_metrics {
-class MetricEstimator {
- public:
-  MetricEstimator(Eigen::Ref<const Eigen::Matrix3Xd> const& points, Config const& config);
+Eigen::MatrixX3d transformPointIdxToMatrix(Eigen::Ref<const Eigen::Matrix3Xd> const& points,
+                                           std::vector<Eigen::Index> const& idx);
 
-  double MME();
-
-  double MPV();
-
- private:
-  class Impl;
-  std::unique_ptr<Impl> impl_;
-};
-
+std::vector<Eigen::Index> getRadiusSearchIndices(cilantro::KDTree3d<> const& tree,
+                                                 Eigen::Ref<const Eigen::Vector3d> const& query, double radius);
 }  // namespace map_metrics

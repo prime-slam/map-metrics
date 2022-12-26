@@ -1,0 +1,3 @@
+add_executable(example_metric_estimation metric_estimation.cpp)
+
+target_link_libraries(example_metric_estimation PRIVATE map_metrics)
