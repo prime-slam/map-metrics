@@ -1,4 +1,6 @@
-add_library(map_metrics_cpp SHARED 
+add_subdirectory(map_metrics)
+
+add_library(map_metrics_cpp SHARED
   metrics.h
   metrics.cpp
   metrics_utils.h
