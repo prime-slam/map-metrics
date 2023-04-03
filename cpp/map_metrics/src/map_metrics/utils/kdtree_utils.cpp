@@ -20,18 +20,8 @@
 #include "kdtree_utils.h"
 
 namespace map_metrics {
-Eigen::MatrixX3d transformPointIdxToMatrix(Eigen::Ref<const Eigen::Matrix3Xd> const& points,
-                                           std::vector<Eigen::Index> const& idx_vector) {
-  Eigen::MatrixX3d matrix(idx_vector.size(), 3);
-  Eigen::Index row_idx = 0;
-  for (Eigen::Index i : idx_vector) {
-    matrix.row(row_idx++) = points.col(i);
-  }
-  return matrix;
-}
-
-std::vector<Eigen::Index> getRadiusSearchIndices(cilantro::KDTree3d<> const& tree,
-                                                 Eigen::Ref<const Eigen::Vector3d> const& query, double radius) {
+std::vector<Eigen::Index> getRadiusSearchIndices(cilantro::KDTree3d<> const& tree, Eigen::Vector3d const& query,
+                                                 double radius) {
   cilantro::NeighborSet<double> nn = tree.radiusSearch(query, pow(radius, 2.0));
   std::vector<Eigen::Index> idx_vector(nn.size());
   std::transform(nn.begin(), nn.end(), idx_vector.begin(), [](auto n) { return n.index; });

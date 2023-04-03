@@ -24,10 +24,10 @@
 namespace map_metrics {
 
 // TODO (achains): Replace this with Cilantro PCA
-Eigen::MatrixX3d findCovariance(Eigen::Ref<const Eigen::Matrix3Xd> const& points);
+Eigen::MatrixX3d findCovariance(Eigen::MatrixX3d const& points);
 
-double computePointsVariance(Eigen::Ref<const Eigen::Matrix3Xd> const& points);
+double computePointsVariance(Eigen::Matrix3Xd const& points);
 
-double computePointsEntropy(Eigen::Ref<const Eigen::Matrix3Xd> const& points);
+double computePointsEntropy(Eigen::Matrix3Xd const& points);
 }  // namespace map_metrics
 #endif  // MAP_METRICS_POINT_STATISTICS_H

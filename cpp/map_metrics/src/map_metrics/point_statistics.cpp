@@ -22,20 +22,23 @@
 #include <cassert>
 #include <cmath>
 
+#include <Eigen/Eigenvalues>
+
 namespace map_metrics {
 
-Eigen::MatrixX3d findCovariance(Eigen::Ref<const Eigen::Matrix3Xd> const& points) {
+Eigen::MatrixX3d findCovariance(Eigen::MatrixX3d const& points) {
+  // TODO (achains): Rewrite for Colwise matrix
   Eigen::MatrixX3d centered = points.rowwise() - points.colwise().mean();
   return (centered.adjoint() * centered) / (static_cast<double>(points.rows()) - 1.0);
 }
 
-double computePointsVariance(Eigen::Ref<const Eigen::Matrix3Xd> const& points) {
-  Eigen::VectorXd eigenvalues = findCovariance(points).eigenvalues().real();
+double computePointsVariance(Eigen::Matrix3Xd const& points) {
+  Eigen::VectorXd eigenvalues = findCovariance(points.transpose()).eigenvalues().real();
   return eigenvalues.minCoeff();
 }
 
-double computePointsEntropy(Eigen::Ref<const Eigen::Matrix3Xd> const& points) {
-  double det = 2.0 * M_PI * M_E * findCovariance(points).determinant();
+double computePointsEntropy(Eigen::Matrix3Xd const& points) {
+  double det = 2.0 * M_PI * M_E * findCovariance(points.transpose()).determinant();
   assert(det > 0 && "Determinant of covariance matrix has to be non-negative");
   return 0.5 * std::log(det);
 }

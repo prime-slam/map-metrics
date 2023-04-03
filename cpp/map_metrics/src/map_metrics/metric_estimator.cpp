@@ -24,7 +24,7 @@
 namespace map_metrics {
 class MetricsEstimator::Impl {
  public:
-  Impl(Eigen::Ref<const Eigen::Matrix3Xd> const& points, Config const& config);
+  Impl(Eigen::Matrix3Xd const& points, Config const& config);
 
   double MME();
 
@@ -34,24 +34,37 @@ class MetricsEstimator::Impl {
   std::unique_ptr<cilantro::KDTree3d<>> map_kd_tree_;
   Config config_;
 
-  double baseMetricEstimator(double (*metric)(Eigen::Ref<const Eigen::Matrix3Xd> const& points));
+  double baseMetricEstimator(double (*metric)(Eigen::Matrix3Xd const& points));
 };
 
-MetricsEstimator::Impl::Impl(Eigen::Ref<const Eigen::Matrix3Xd> const& points, map_metrics::Config const& config)
-    : map_kd_tree_(std::make_unique<cilantro::KDTree3d<>>(points.data())), config_(config) {}
+MetricsEstimator::MetricsEstimator(Eigen::Matrix3Xd const& points, map_metrics::Config const& config)
+    : impl_(new Impl(points, config)) {}
+
+MetricsEstimator::~MetricsEstimator() = default;
+
+MetricsEstimator::MetricsEstimator(map_metrics::MetricsEstimator&& op) noexcept = default;
+
+MetricsEstimator& MetricsEstimator::operator=(map_metrics::MetricsEstimator&& op) noexcept = default;
+
+double MetricsEstimator::MME() { return impl_->MME(); }
+
+double MetricsEstimator::MPV() { return impl_->MPV(); }
+
+MetricsEstimator::Impl::Impl(Eigen::Matrix3Xd const& points, map_metrics::Config const& config)
+    : map_kd_tree_(std::make_unique<cilantro::KDTree3d<>>(points)), config_(config) {}
 
 double MetricsEstimator::Impl::MME() { return baseMetricEstimator(computePointsEntropy); }
 
 double MetricsEstimator::Impl::MPV() { return baseMetricEstimator(computePointsVariance); }
 
-double MetricsEstimator::Impl::baseMetricEstimator(double (*metric)(Eigen::Ref<const Eigen::Matrix3Xd> const& points)) {
+double MetricsEstimator::Impl::baseMetricEstimator(double (*metric)(Eigen::Matrix3Xd const& points)) {
   std::vector<double> metric_statistic;
-  for (auto point : map_kd_tree_->getPointsMatrixMap().colwise()) {
+  for (auto const& point : map_kd_tree_->getPointsMatrixMap().colwise()) {
     auto neighbours_idx = getRadiusSearchIndices(*map_kd_tree_, point, config_.knn_rad);
 
     bool enough_neighbours = neighbours_idx.size() > config_.min_knn;
     if (enough_neighbours) {
-      metric_statistic.push_back(metric(transformPointIdxToMatrix(map_kd_tree_->getPointsMatrixMap(), neighbours_idx)));
+      metric_statistic.push_back(metric(map_kd_tree_->getPointsMatrixMap()(Eigen::all, neighbours_idx)));
     }
   }
 

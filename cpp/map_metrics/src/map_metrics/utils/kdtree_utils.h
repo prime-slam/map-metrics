@@ -24,10 +24,7 @@
 #include <cilantro/core/kd_tree.hpp>
 
 namespace map_metrics {
-Eigen::MatrixX3d transformPointIdxToMatrix(Eigen::Ref<const Eigen::Matrix3Xd> const& points,
-                                           std::vector<Eigen::Index> const& idx_vector);
-
-std::vector<Eigen::Index> getRadiusSearchIndices(cilantro::KDTree3d<> const& tree,
-                                                 Eigen::Ref<const Eigen::Vector3d> const& query, double radius);
+std::vector<Eigen::Index> getRadiusSearchIndices(cilantro::KDTree3d<> const& tree, Eigen::Vector3d const& query,
+                                                 double radius);
 }  // namespace map_metrics
 #endif  // MAP_METRICS_KDTREE_UTILS_H

@@ -27,7 +27,13 @@
 namespace map_metrics {
 class MetricsEstimator {
  public:
-  MetricsEstimator(Eigen::Ref<const Eigen::Matrix3Xd> const& points, Config const& config);
+  MetricsEstimator(Eigen::Matrix3Xd const& points, Config const& config);
+
+  ~MetricsEstimator();
+
+  MetricsEstimator(MetricsEstimator && op) noexcept;
+
+  MetricsEstimator& operator=(MetricsEstimator && op) noexcept;
 
   double MME();
 
