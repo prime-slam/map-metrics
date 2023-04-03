@@ -7,7 +7,8 @@ set(SRC_FILES
     ${TARGET_SOURCE_DIR}/map_metrics/config.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/metric_estimator.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/point_statistics.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/utils/kdtree_utils.cpp)
+    ${TARGET_SOURCE_DIR}/map_metrics/utils/kdtree_utils.cpp
+    ${TARGET_SOURCE_DIR}/map_metrics/utils/map_utils.cpp)
 
 add_library(${TARGET_NAME} ${SRC_FILES})
 
