@@ -39,6 +39,8 @@ class MetricsEstimator {
 
   double MPV();
 
+  double MOM();
+
  private:
   class Impl;
   std::unique_ptr<Impl> impl_;

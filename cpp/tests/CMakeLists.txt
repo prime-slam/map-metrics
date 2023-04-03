@@ -18,17 +18,33 @@ add_executable(run_tests
     pc_utils.cpp
 )
 
+add_executable(run_tests_new
+    main.cpp
+    test_depth_new.cpp
+    parse_utils.h
+    parse_utils.cpp
+    pc_utils.h
+    pc_utils.cpp
+)
+
 find_package(Eigen3 3.4 REQUIRED)
 if (Eigen3_FOUND)
     target_link_libraries(run_tests PRIVATE Eigen3::Eigen)
+    target_link_libraries(run_tests_new PRIVATE Eigen3::Eigen)
 endif()
 
 target_link_libraries(run_tests PRIVATE ${cilantro_LIBRARIES})
 target_include_directories(run_tests PRIVATE "${CMAKE_BINARY_DIR}/external/cilantro/cilantro/include")
 
+target_link_libraries(run_tests_new PRIVATE ${cilantro_LIBRARIES})
+target_include_directories(run_tests_new PRIVATE "${CMAKE_BINARY_DIR}/external/cilantro/cilantro/include")
+
 
 target_link_libraries(run_tests PRIVATE gtest_main)
 target_link_libraries(run_tests PRIVATE map_metrics_cpp)
+
+target_link_libraries(run_tests_new PRIVATE gtest_main)
+target_link_libraries(run_tests_new PRIVATE map_metrics_tmp)
 
 target_compile_definitions(run_tests PRIVATE 
     TEST_ORTHOGONAL_METRICS 
@@ -37,3 +53,4 @@ target_compile_definitions(run_tests PRIVATE
 
 include(GoogleTest)
 gtest_discover_tests(run_tests)
+gtest_discover_tests(run_tests_new)
