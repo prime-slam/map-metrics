@@ -38,7 +38,7 @@ double computePointsVariance(Eigen::Matrix3Xd const& points) {
 }
 
 double computePointsEntropy(Eigen::Matrix3Xd const& points) {
-  double det = 2.0 * M_PI * M_E * findCovariance(points.transpose()).determinant();
+  double det = (2.0 * M_PI * M_E * findCovariance(points.transpose())).determinant();
   assert(det > 0 && "Determinant of covariance matrix has to be non-negative");
   return 0.5 * std::log(det);
 }
