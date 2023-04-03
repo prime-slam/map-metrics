@@ -58,7 +58,9 @@ double MetricsEstimator::MME() { return impl_->MME(); }
 
 double MetricsEstimator::MPV() { return impl_->MPV(); }
 
-double MetricsEstimator::MOM() { return impl_->MOM(); }
+double MetricsEstimator::MOM(std::vector<Eigen::Matrix3Xd> const& orthogonal_subset) {
+  return impl_->MOM(orthogonal_subset);
+}
 
 MetricsEstimator::Impl::Impl(Eigen::Matrix3Xd const& points, map_metrics::Config const& config)
     : map_kd_tree_(std::make_unique<cilantro::KDTree3d<>>(points)), config_(config) {}

@@ -39,7 +39,7 @@ class MetricsEstimator {
 
   double MPV();
 
-  double MOM();
+  double MOM(std::vector<Eigen::Matrix3Xd> const& orthogonal_subset = {});
 
  private:
   class Impl;

@@ -21,6 +21,7 @@ add_executable(run_tests
 add_executable(run_tests_new
     main.cpp
     test_depth_new.cpp
+    test_orthogonal_new.cpp
     parse_utils.h
     parse_utils.cpp
     pc_utils.h
