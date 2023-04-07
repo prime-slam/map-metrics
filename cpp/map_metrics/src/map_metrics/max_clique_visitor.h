@@ -23,7 +23,6 @@
 #include <memory>
 #include <vector>
 
-#include <iostream>
 #include "boost/graph/adjacency_matrix.hpp"
 #include "cluster_means.h"
 

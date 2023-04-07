@@ -24,8 +24,6 @@
 #include <boost/graph/bron_kerbosch_all_cliques.hpp>
 #include <memory>
 
-#include <iostream>
-
 namespace map_metrics {
 // TODO: Use pointer instead of copying clusterizer since it can be big.
 MaxCliqueVisitor::MaxCliqueVisitor(ClusterMeans const& clusterizer,
