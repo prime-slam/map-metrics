@@ -21,9 +21,10 @@
 #define MAP_METRICS_CLUSTERING_H
 
 #include <alglib/ap.h>
-#include <cilantro/core/data_containers.hpp>
 #include <cstdint>
 #include <vector>
+
+#include <Eigen/Core>
 
 namespace map_metrics {
 class ClusterMeans {
@@ -32,9 +33,9 @@ class ClusterMeans {
 
   explicit ClusterMeans(alglib::integer_1d_array const& labels, Eigen::Index cluster_number);
 
-  void filterClusters(Eigen::Ref<const cilantro::VectorSet3d> const points, int32_t min_clust_size);
+  void filterClusters(Eigen::Ref<const Eigen::Matrix3Xd> const points, int32_t min_clust_size);
 
-  const cilantro::VectorSet3d& getMeans() const;
+  const Eigen::Matrix3Xd& getMeans() const;
 
   const Eigen::VectorXi& getIdx() const;
 
@@ -44,12 +45,12 @@ class ClusterMeans {
 
  private:
   Eigen::VectorXi labels_;
-  cilantro::VectorSet3d cluster_means_;
+  Eigen::Matrix3Xd cluster_means_;
   Eigen::VectorXi cluster_idx_;
   Eigen::Index cluster_number_;
 };
 
-ClusterMeans clusterizeAHC(Eigen::Ref<const cilantro::VectorSet3d> const points, double distance_treshold);
+ClusterMeans clusterizeAHC(Eigen::Ref<const Eigen::Matrix3Xd> const points, double distance_treshold);
 
 }  // namespace map_metrics
 

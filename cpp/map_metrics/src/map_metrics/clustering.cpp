@@ -27,7 +27,7 @@ ClusterMeans::ClusterMeans(alglib::integer_1d_array const& labels, Eigen::Index 
   for (Eigen::Index i = 0; i < labels.length(); ++i) labels_[i] = labels[i];
 }
 
-const cilantro::VectorSet3d& ClusterMeans::getMeans() const { return this->cluster_means_; }
+const Eigen::Matrix3Xd& ClusterMeans::getMeans() const { return this->cluster_means_; }
 
 const Eigen::VectorXi& ClusterMeans::getIdx() const { return this->cluster_idx_; }
 
@@ -35,7 +35,7 @@ const Eigen::VectorXi& ClusterMeans::getLabels() const { return this->labels_; }
 
 Eigen::Index ClusterMeans::getClusterNumber() const { return this->cluster_number_; }
 
-void ClusterMeans::filterClusters(Eigen::Ref<const cilantro::VectorSet3d> const points, int32_t min_clust_size) {
+void ClusterMeans::filterClusters(Eigen::Ref<const Eigen::Matrix3Xd> const points, int32_t min_clust_size) {
   cluster_idx_.resize(cluster_number_);
   cluster_means_.resize(3, cluster_number_);
 
@@ -45,7 +45,7 @@ void ClusterMeans::filterClusters(Eigen::Ref<const cilantro::VectorSet3d> const 
     auto idx = (labels_.array() == i);
     if (idx.count() > min_clust_size) {
       // TODO: Clean up! Find better solution for 'np.where'
-      cilantro::VectorSet3d normals_at_idx(3, idx.count());
+      Eigen::Matrix3Xd normals_at_idx(3, idx.count());
       Eigen::Index normals_at_idx_size = 0;
       for (Eigen::Index col_idx = 0; col_idx < idx.size(); ++col_idx) {
         if (idx[col_idx]) normals_at_idx.col(normals_at_idx_size++) = points.col(col_idx);
@@ -63,7 +63,7 @@ void ClusterMeans::filterClusters(Eigen::Ref<const cilantro::VectorSet3d> const 
   this->cluster_number_ = big_cluster_size;
 }
 
-ClusterMeans clusterizeAHC(Eigen::Ref<const cilantro::VectorSet3d> const points, double distance_treshold) {
+ClusterMeans clusterizeAHC(Eigen::Ref<const Eigen::Matrix3Xd> const points, double distance_treshold) {
   // Define clusterizer
   alglib::clusterizerstate s;
   alglib::ahcreport rep;
