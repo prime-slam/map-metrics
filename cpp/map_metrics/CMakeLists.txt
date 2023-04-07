@@ -8,7 +8,7 @@ set(SRC_FILES
     ${TARGET_SOURCE_DIR}/map_metrics/metric_estimator.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/point_statistics.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/orthogonal.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/clustering.cpp
+    ${TARGET_SOURCE_DIR}/map_metrics/cluster_means.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/max_clique.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/utils/kdtree_utils.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/utils/map_utils.cpp)

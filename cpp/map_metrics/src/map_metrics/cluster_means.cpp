@@ -17,7 +17,7 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#include "clustering.h"
+#include "cluster_means.h"
 
 #include <alglib/dataanalysis.h>
 
@@ -60,7 +60,7 @@ void ClusterMeans::filterClusters(Eigen::Ref<const Eigen::Matrix3Xd> const point
   // Shrink to fit
   cluster_idx_.conservativeResize(big_cluster_size);
   cluster_means_.conservativeResize(3, big_cluster_size);
-  this->cluster_number_ = big_cluster_size;
+  cluster_number_ = big_cluster_size;
 }
 
 ClusterMeans clusterizeAHC(Eigen::Ref<const Eigen::Matrix3Xd> const points, double distance_treshold) {

@@ -17,8 +17,8 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#ifndef MAP_METRICS_CLUSTERING_H
-#define MAP_METRICS_CLUSTERING_H
+#ifndef MAP_METRICS_CLUSTER_MEANS_H
+#define MAP_METRICS_CLUSTER_MEANS_H
 
 #include <alglib/ap.h>
 #include <cstdint>
@@ -54,4 +54,4 @@ ClusterMeans clusterizeAHC(Eigen::Ref<const Eigen::Matrix3Xd> const points, doub
 
 }  // namespace map_metrics
 
-#endif  // MAP_METRICS_CLUSTERING_H
+#endif  // MAP_METRICS_CLUSTER_MEANS_H
