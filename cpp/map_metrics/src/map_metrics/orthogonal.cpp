@@ -23,8 +23,8 @@
 
 #include <cilantro/utilities/point_cloud.hpp>
 
-#include "clustering.h"
-#include "max_clique.h"
+#include "cluster_means.h"
+#include "max_clique_visitor.h"
 #include "point_statistics.h"
 #include "utils/kdtree_utils.h"
 

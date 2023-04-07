@@ -17,7 +17,7 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#ifndef MAP_METRICS_MAX_CLIQUE_H
+#ifndef MAP_METRICS_MAX_CLIQUE_VISITOR_H
 #define MAP_METRICS_MAX_CLIQUE_H
 
 #include <vector>
@@ -64,4 +64,4 @@ namespace max_clique{
     std::vector<Eigen::Index> FindMaxClique(clustering::ClusterMeans const & clusterizer, double eps);
 }
 
-#endif // MAP_METRICS_MAX_CLIQUE_H
+#endif  // MAP_METRICS_MAX_CLIQUE_VISITOR_H

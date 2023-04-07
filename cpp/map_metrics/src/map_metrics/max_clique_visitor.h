@@ -17,15 +17,15 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#ifndef MAP_METRICS_MAX_CLIQUE_H
-#define MAP_METRICS_MAX_CLIQUE_H
+#ifndef MAP_METRICS_MAX_CLIQUE_VISITOR_H
+#define MAP_METRICS_MAX_CLIQUE_VISITOR_H
 
 #include <memory>
 #include <vector>
 
 #include <iostream>
 #include "boost/graph/adjacency_matrix.hpp"
-#include "clustering.h"
+#include "cluster_means.h"
 
 namespace map_metrics {
 class MaxCliqueVisitor {
@@ -63,4 +63,4 @@ class MaxCliqueVisitor {
 std::vector<Eigen::Index> findMaxClique(ClusterMeans const& clusterizer, double eps);
 }  // namespace map_metrics
 
-#endif  // MAP_METRICS_MAX_CLIQUE_H
+#endif  // MAP_METRICS_MAX_CLIQUE_VISITOR_H

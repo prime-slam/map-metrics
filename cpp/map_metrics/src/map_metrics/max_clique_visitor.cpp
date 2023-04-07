@@ -17,8 +17,8 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#include "max_clique.h"
-#include "clustering.h"
+#include "max_clique_visitor.h"
+#include "cluster_means.h"
 
 #include <boost/graph/adjacency_matrix.hpp>
 #include <boost/graph/bron_kerbosch_all_cliques.hpp>
