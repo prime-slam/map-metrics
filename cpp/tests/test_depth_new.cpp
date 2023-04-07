@@ -22,10 +22,9 @@
 #include <iostream>
 
 #include "parse_utils.h"
-#include "pc_utils.h"
 
 #include "map_metrics/metric_estimator.h"
-#include "map_metrics/utils/map_utils.h"
+#include "map_metrics/utils/cloud_utils.h"
 
 TEST(DepthTest, MME){
   std::vector<cilantro::VectorSet3d> pcs = parse_utils::depth_parse::GetDepthPCs("data/depth/pcs");

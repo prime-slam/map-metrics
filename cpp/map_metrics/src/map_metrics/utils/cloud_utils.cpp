@@ -17,20 +17,35 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#include "map_metrics/orthogonal.h"
-
-#include <memory>
+#include "map_metrics/utils/cloud_utils.h"
 
 #include <cilantro/utilities/point_cloud.hpp>
 
-#include "cluster_means.h"
-#include "max_clique_visitor.h"
-#include "point_statistics.h"
-#include "utils/kdtree_utils.h"
+#include "kdtree_utils.h"
+#include "map_metrics/cluster_means.cpp"
+#include "map_metrics/max_clique_visitor.h"
 
 namespace map_metrics {
+Eigen::Matrix3Xd aggregateMap(std::vector<Eigen::Matrix3Xd> const& point_sequence,
+                              std::vector<Eigen::Matrix4d> const& poses) {
+  if (point_sequence.size() != poses.size()) {
+    throw std::runtime_error("Point sequence size != Poses size (" + std::to_string(point_sequence.size()) +
+                             " != " + std::to_string(poses.size()) + ")");
+  }
+
+  cilantro::PointCloud3d map{};
+  Eigen::Matrix4d center = poses[0].inverse();
+
+  for (size_t i = 0; i < point_sequence.size(); ++i) {
+    cilantro::RigidTransform3d transform_mx(center * poses[i]);
+    map.append(cilantro::PointCloud3d(point_sequence[i]).transformed(transform_mx));
+  }
+
+  return map.points;
+}
+
 std::vector<Eigen::Matrix3Xd> findOrthogonalSubset(Eigen::Matrix3Xd const& points, Config const& config) {
-  auto planar_indices = findPlanarRegions(points, config.knn_rad);
+  auto planar_indices = findPlanarPoints(cilantro::KDTree3d<>(points), config.knn_rad);
   auto pcd = cilantro::PointCloud3d(points);
   // TODO (achains): pow(knn_rad, 2)?
   pcd.estimateNormalsKNNInRadius(config.max_nn, config.knn_rad, true);
@@ -61,26 +76,8 @@ std::vector<Eigen::Matrix3Xd> findOrthogonalSubset(Eigen::Matrix3Xd const& point
   return orthogonal_subset;
 }
 
-std::vector<Eigen::Index> findPlanarRegions(Eigen::Matrix3Xd const& points, double knn_rad) {
-  auto kd_tree = std::make_unique<cilantro::KDTree3d<>>(points);
-
-  std::vector<Eigen::Index> normals_indices;
-  for (Eigen::Index i = 0; i < kd_tree->getPointsMatrixMap().cols(); ++i) {
-    auto neighbours_idx = getRadiusSearchIndices(*kd_tree, kd_tree->getPointsMatrixMap().col(i), knn_rad);
-
-    int32_t component_inner_min_knn = 3;
-    bool enough_neighbours = neighbours_idx.size() > component_inner_min_knn;
-    if (enough_neighbours) {
-      Eigen::MatrixX3d cov_matrix = findCovariance(kd_tree->getPointsMatrixMap()(Eigen::all, neighbours_idx));
-      Eigen::VectorXd eigenvalues = cov_matrix.eigenvalues().real();
-      std::sort(eigenvalues.begin(), eigenvalues.end());
-      // TODO (achains): Better planarity check?
-      if (100 * eigenvalues[0] < eigenvalues[1]) {
-        normals_indices.push_back(i);
-      }
-    }
-  }
-
-  return normals_indices;
+Eigen::Matrix3d findCovariance(Eigen::Matrix3Xd const& points) {
+  Eigen::Matrix3Xd centered = points.colwise() - points.rowwise().mean();
+  return (centered * centered.adjoint()) / (static_cast<double>(points.cols()) - 1.0);
 }
 }  // namespace map_metrics

@@ -7,11 +7,10 @@ set(SRC_FILES
     ${TARGET_SOURCE_DIR}/map_metrics/config.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/metric_estimator.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/point_statistics.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/orthogonal.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/cluster_means.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/max_clique_visitor.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/utils/kdtree_utils.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/utils/map_utils.cpp)
+    ${TARGET_SOURCE_DIR}/map_metrics/utils/cloud_utils.cpp)
 
 add_library(${TARGET_NAME} ${SRC_FILES})
 
@@ -31,6 +30,8 @@ target_include_directories(
     SYSTEM
     PUBLIC
     $<BUILD_INTERFACE:${TARGET_INCLUDE_DIR}>
+    PRIVATE
+    $<BUILD_INTERFACE:${TARGET_SOURCE_DIR}>
 )
 # TODO (achains): Remove this
 target_include_directories(${TARGET_NAME} PRIVATE "${CMAKE_BINARY_DIR}/external/cilantro/cilantro/include")

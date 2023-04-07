@@ -22,8 +22,7 @@
 #include "parse_utils.h"
 
 #include "map_metrics/metric_estimator.h"
-#include "map_metrics/orthogonal.h"
-#include "map_metrics/utils/map_utils.h"
+#include "map_metrics/utils/cloud_utils.h"
 
 #include <chrono>
 #include <iostream>

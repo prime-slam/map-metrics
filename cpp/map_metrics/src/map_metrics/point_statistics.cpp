@@ -24,21 +24,16 @@
 
 #include <Eigen/Eigenvalues>
 
+#include "map_metrics/utils/cloud_utils.h"
+
 namespace map_metrics {
-
-Eigen::MatrixX3d findCovariance(Eigen::MatrixX3d const& points) {
-  // TODO (achains): Rewrite for Colwise matrix
-  Eigen::MatrixX3d centered = points.rowwise() - points.colwise().mean();
-  return (centered.adjoint() * centered) / (static_cast<double>(points.rows()) - 1.0);
-}
-
 double computePointsVariance(Eigen::Matrix3Xd const& points) {
-  Eigen::VectorXd eigenvalues = findCovariance(points.transpose()).eigenvalues().real();
+  Eigen::VectorXd eigenvalues = findCovariance(points).eigenvalues().real();
   return eigenvalues.minCoeff();
 }
 
 double computePointsEntropy(Eigen::Matrix3Xd const& points) {
-  double det = (2.0 * M_PI * M_E * findCovariance(points.transpose())).determinant();
+  double det = (2.0 * M_PI * M_E * findCovariance(points)).determinant();
   assert(det > 0 && "Determinant of covariance matrix has to be non-negative");
   return 0.5 * std::log(det);
 }

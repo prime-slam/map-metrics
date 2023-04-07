@@ -17,17 +17,19 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#ifndef MAP_METRICS_ORTHOGONAL_H
-#define MAP_METRICS_ORTHOGONAL_H
-#include <vector>
-
+#ifndef MAP_METRICS_CLOUD_UTILS_H
+#define MAP_METRICS_CLOUD_UTILS_H
 #include <Eigen/Core>
 
-#include "config.h"
+#include "map_metrics/config.h"
 
 namespace map_metrics {
+Eigen::Matrix3Xd aggregateMap(std::vector<Eigen::Matrix3Xd> const& point_sequence,
+                              std::vector<Eigen::Matrix4d> const& poses);
+
 std::vector<Eigen::Matrix3Xd> findOrthogonalSubset(Eigen::Matrix3Xd const& points, Config const& config);
 
-std::vector<Eigen::Index> findPlanarRegions(Eigen::Matrix3Xd const& points, double knn_rad);
+// TODO (achains): Replace this with Cilantro PCA
+Eigen::Matrix3d findCovariance(Eigen::Matrix3Xd const& points);
 }  // namespace map_metrics
-#endif  // MAP_METRICS_ORTHOGONAL_H
+#endif  // MAP_METRICS_CLOUD_UTILS_H
