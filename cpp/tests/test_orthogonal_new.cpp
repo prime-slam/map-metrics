@@ -21,7 +21,8 @@
 
 #include "parse_utils.h"
 
-#include "map_metrics/metric_estimator.h"
+#include "map_metrics/map_tree.h"
+#include "map_metrics/metrics.h"
 #include "map_metrics/utils/cloud_utils.h"
 
 #include <chrono>
@@ -36,9 +37,9 @@ TEST(Orthogonal, MOM) {
 
   auto start_time = std::chrono::system_clock::now();
   auto points_map = map_metrics::aggregateMap(PCs, poses);
-  auto estimator = map_metrics::MetricsEstimator(points_map, map_metrics::Config(5, 0.2, 30, 5));
+  auto map = map_metrics::MapTree(points_map, 0.2);
 
-  double result_mom = estimator.MOM(orth_subset);
+  double result_mom = map_metrics::MOM(map, 3, orth_subset);
 
   auto elapsed_milliseconds =
       std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start_time);
