@@ -45,7 +45,7 @@ Eigen::Matrix3Xd aggregateMap(std::vector<Eigen::Matrix3Xd> const& point_sequenc
 }
 
 std::vector<Eigen::Matrix3Xd> findOrthogonalSubset(Eigen::Matrix3Xd const& points, Config const& config) {
-  auto planar_indices = findPlanarPoints(cilantro::KDTree3d<>(points), config.knn_rad);
+  auto planar_indices = findPlanarPoints(MapTree(points, config.knn_rad));
   auto pcd = cilantro::PointCloud3d(points);
   // TODO (achains): pow(knn_rad, 2)?
   pcd.estimateNormalsKNNInRadius(config.max_nn, config.knn_rad, true);

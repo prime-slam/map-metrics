@@ -19,12 +19,10 @@
 //
 #ifndef MAP_METRICS_KDTREE_UTILS_H
 #define MAP_METRICS_KDTREE_UTILS_H
-#include <vector>
-
-#include <cilantro/core/kd_tree.hpp>
+#include <map_metrics/map_tree.h>
 
 namespace map_metrics {
 
-std::vector<Eigen::Index> findPlanarPoints(cilantro::KDTree3d<> const& tree, double radius);
+std::vector<Eigen::Index> findPlanarPoints(MapTree const& map_tree);
 }  // namespace map_metrics
 #endif  // MAP_METRICS_KDTREE_UTILS_H

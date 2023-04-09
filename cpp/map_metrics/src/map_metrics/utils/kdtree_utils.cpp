@@ -19,18 +19,20 @@
 //
 #include "kdtree_utils.h"
 
+#include <Eigen/Eigenvalues>
+
+#include "map_metrics/map_tree.h"
 #include "map_metrics/utils/cloud_utils.h"
 
 namespace map_metrics {
-std::vector<Eigen::Index> findPlanarPoints(cilantro::KDTree3d<> const& tree, double radius) {
+std::vector<Eigen::Index> findPlanarPoints(MapTree const& map_tree) {
   std::vector<Eigen::Index> normals_indices;
-  for (Eigen::Index i = 0; i < tree.getPointsMatrixMap().cols(); ++i) {
-    auto neighbours_idx = getRadiusSearchIndices(tree, tree.getPointsMatrixMap().col(i), radius);
 
+  for (Eigen::Index i = 0; i < map_tree.getMapNeighbours().size(); ++i) {
     int32_t component_inner_min_knn = 3;
-    bool enough_neighbours = neighbours_idx.size() > component_inner_min_knn;
+    bool enough_neighbours = map_tree.getMapNeighbours()[i].size() > component_inner_min_knn;
     if (enough_neighbours) {
-      Eigen::Matrix3d cov_matrix = findCovariance(tree.getPointsMatrixMap()(Eigen::all, neighbours_idx));
+      Eigen::Matrix3d cov_matrix = findCovariance(map_tree.getMapPoints(map_tree.getMapNeighbours()[i]));
       Eigen::VectorXd eigenvalues = cov_matrix.eigenvalues().real();
       std::sort(eigenvalues.begin(), eigenvalues.end());
       // TODO (achains): Better planarity check?
