@@ -21,9 +21,9 @@
 
 #include <cilantro/utilities/point_cloud.hpp>
 
+#include "cluster_means.h"
 #include "kdtree_utils.h"
-#include "map_metrics/cluster_means.cpp"
-#include "map_metrics/max_clique_visitor.h"
+#include "max_clique_visitor.h"
 
 namespace map_metrics {
 Eigen::Matrix3Xd aggregateMap(std::vector<Eigen::Matrix3Xd> const& point_sequence,

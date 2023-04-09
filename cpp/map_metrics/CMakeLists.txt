@@ -5,13 +5,12 @@ set(TARGET_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(SRC_FILES
     ${TARGET_SOURCE_DIR}/map_metrics/config.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/metric_estimator.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/point_statistics.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/cluster_means.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/map_tree.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/metrics.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/metrics_core.cpp
-    ${TARGET_SOURCE_DIR}/map_metrics/max_clique_visitor.cpp
+    ${TARGET_SOURCE_DIR}/map_metrics/utils/cluster_means.cpp
+    ${TARGET_SOURCE_DIR}/map_metrics/utils/max_clique_visitor.cpp
+    ${TARGET_SOURCE_DIR}/map_metrics/utils/point_statistics.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/utils/kdtree_utils.cpp
     ${TARGET_SOURCE_DIR}/map_metrics/utils/cloud_utils.cpp)
 

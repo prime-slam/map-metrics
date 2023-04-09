@@ -20,7 +20,7 @@
 #include "map_metrics/metrics.h"
 
 #include "map_metrics/metrics_core.h"
-#include "point_statistics.h"
+#include "utils/point_statistics.h"
 
 namespace map_metrics {
 double MME(MapTree const& map_tree, int min_component_size) {
