@@ -22,14 +22,6 @@
 #include "map_metrics/utils/cloud_utils.h"
 
 namespace map_metrics {
-std::vector<Eigen::Index> getRadiusSearchIndices(cilantro::KDTree3d<> const& tree, Eigen::Vector3d const& query,
-                                                 double radius) {
-  cilantro::NeighborSet<double> nn = tree.radiusSearch(query, pow(radius, 2.0));
-  std::vector<Eigen::Index> idx_vector(nn.size());
-  std::transform(nn.begin(), nn.end(), idx_vector.begin(), [](auto n) { return n.index; });
-  return idx_vector;
-}
-
 std::vector<Eigen::Index> findPlanarPoints(cilantro::KDTree3d<> const& tree, double radius) {
   std::vector<Eigen::Index> normals_indices;
   for (Eigen::Index i = 0; i < tree.getPointsMatrixMap().cols(); ++i) {

@@ -24,8 +24,6 @@
 #include <cilantro/core/kd_tree.hpp>
 
 namespace map_metrics {
-std::vector<Eigen::Index> getRadiusSearchIndices(cilantro::KDTree3d<> const& tree, Eigen::Vector3d const& query,
-                                                 double radius);
 
 std::vector<Eigen::Index> findPlanarPoints(cilantro::KDTree3d<> const& tree, double radius);
 }  // namespace map_metrics
