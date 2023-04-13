@@ -17,25 +17,12 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#ifndef MAP_METRICS_ORTH_EXTRACT_H
-#define MAP_METRICS_ORTH_EXTRACT_H
+#ifndef MAP_METRICS_KDTREE_UTILS_H
+#define MAP_METRICS_KDTREE_UTILS_H
+#include <map_metrics/map_tree.h>
 
-#include "config.h"
-#include "clustering.h"
+namespace map_metrics {
 
-#include <cstdint>
-#include <cilantro/utilities/point_cloud.hpp>
-
-namespace orth_extract{
-    using PointCloud = cilantro::PointCloud3d;
-
-    std::vector<cilantro::VectorSet3d> ExtractOrthogonalSubset(const PointCloud& pivot_pc,
-                                    config::CustomConfig config = config::LidarConfig(),
-                                    double eps = 1e-1);
-
-    PointCloud EstimateNormals(PointCloud pc, double knn_rad, int32_t max_nn);
-
-    PointCloud BuildNormalsAndLambdas(PointCloud const & pc, double knn_rad);
-}
-
-#endif //MAP_METRICS_ORTH_EXTRACT_H
+std::vector<Eigen::Index> findPlanarPoints(MapTree const& map_tree);
+}  // namespace map_metrics
+#endif  // MAP_METRICS_KDTREE_UTILS_H
