@@ -17,17 +17,20 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#include "metrics.h"
+#include "pybind11/pybind11.h"
 
-#include <map_metrics/metrics.h>
+#include "config.h"
+#include "map_tree.h"
+#include "metrics.h"
+#include "utils/cloud_utils.h"
 
 namespace map_metrics {
-void pybindMetrics(py::module& m) {
-  py::module m_metrics = m.def_submodule("metrics", "Map Metrics (MME, MPV, MOM)");
+PYBIND11_MODULE(pybind, m) {
+  m.doc() = "Pybind metrics module";
 
-  m_metrics.def("MME", &MME, "Mean Map Entropy map metric", py::arg("map_tree"), py::arg("min_component_size"));
-  m_metrics.def("MPV", &MPV, "Mean Map Variance map metric", py::arg("map_tree"), py::arg("min_component_size"));
-  m_metrics.def("MOM", &MOM, "Mutually Orthogonal Metric map metric", py::arg("map_tree"),
-                py::arg("min_component_size"), py::arg("orthogonal_subset") = std::vector<Eigen::Matrix3Xd>());
+  pybindConfig(m);
+  pybindMapTree(m);
+  pybindCloudUtils(m);
+  pybindMetrics(m);
 }
 }  // namespace map_metrics

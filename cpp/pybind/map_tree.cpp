@@ -17,17 +17,17 @@
 //       Author: Arthur Saliou
 //               arthur.salio@gmail.com
 //
-#include "metrics.h"
+#include "map_tree.h"
 
-#include <map_metrics/metrics.h>
+#include <pybind11/eigen.h>
+
+#include "map_metrics/map_tree.h"
 
 namespace map_metrics {
-void pybindMetrics(py::module& m) {
-  py::module m_metrics = m.def_submodule("metrics", "Map Metrics (MME, MPV, MOM)");
+void pybindMapTree(py::module& m) {
+  py::module m_map_tree = m.def_submodule("map_tree", "Map Tree class");
 
-  m_metrics.def("MME", &MME, "Mean Map Entropy map metric", py::arg("map_tree"), py::arg("min_component_size"));
-  m_metrics.def("MPV", &MPV, "Mean Map Variance map metric", py::arg("map_tree"), py::arg("min_component_size"));
-  m_metrics.def("MOM", &MOM, "Mutually Orthogonal Metric map metric", py::arg("map_tree"),
-                py::arg("min_component_size"), py::arg("orthogonal_subset") = std::vector<Eigen::Matrix3Xd>());
+  py::class_<MapTree>(m_map_tree, "MapTree")
+      .def(py::init<Eigen::Matrix3Xd, double>(), py::arg("points"), py::arg("knn_rad"));
 }
 }  // namespace map_metrics
