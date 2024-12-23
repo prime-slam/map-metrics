@@ -19,7 +19,7 @@
 //
 #include "map_metrics/map_tree.h"
 
-#include <cilantro/core/kd_tree.hpp>
+#include "cilantro/core/kd_tree.hpp"
 
 namespace map_metrics {
 

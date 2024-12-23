@@ -3,13 +3,14 @@ cmake_minimum_required(VERSION 3.11)
 project(map-metrics)
 
 # Compiler prerequisites
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # # # # # # OPTIONS # # # # # #
 option(GLIBCXX_USE_CXX11_ABI   "Set -D_GLIBCXX_USE_CXX11_ABI=1"       OFF)
 # Build Tests
-option(BUILD_TESTS "Build an executable with tests" OFF)
+option(BUILD_TESTS "Build an executable with tests" ON)
 # Python Bindings
 option(BUILD_PYTHON_MODULE "Build the Python library interface" ON)
 # Address sanitizer
